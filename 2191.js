@@ -29,38 +29,27 @@ Expected
  * @return {number[]}
  */
 const sortJumbled = function(mapping, nums) {
-    let mappedValues = [];
+    let mapped = [];
 
-    nums.forEach((num, index) => mappedValues[index] = mappedValue(num, mapping));
-    nums = sort(nums, mappedValues);    
-
-    return nums;
-};
-
-/**
- * @param {number[]} nums
- * @param {number[]} mappedValues
- * @return {number[]}
- */
-const sort = function(nums, mappedValues) {
-    let isSwapped = false;
-    let len = mappedValues.length;
-    
-    for(let i=0; i<len; i++) {
-        for(let j=0; j<(len-i-1); j++) {
-            if (mappedValues[j] > mappedValues[j + 1]) {
-                [mappedValues[j], mappedValues[j + 1]] = [mappedValues[j + 1], mappedValues[j]];
-                [nums[j], nums[j + 1]] = [nums[j + 1], nums[j]];
-                isSwapped = true;
-            }
-        }
-
-        if (!isSwapped) {
-            break;
-        }
+    for(let num of nums) {
+        mapped.push([num, mappedValue(num, mapping)]);
     }
 
-    return nums;
+    mapped.sort((a, b) => {
+        if(a[1] === b[1]) {
+            return 0;
+        }
+
+        return a[1] - b[1];
+    });  
+
+    let result = [];
+
+    for(let m of mapped) {
+        result.push(m[0]);
+    }
+
+    return result;
 };
 
 /**
